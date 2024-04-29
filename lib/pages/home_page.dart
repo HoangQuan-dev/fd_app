@@ -64,7 +64,6 @@ class _HomePageState extends State<HomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // Search field
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: TextField(

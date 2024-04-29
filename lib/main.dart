@@ -1,5 +1,5 @@
-import 'package:fd_app/pages/splashscreen_page.dart';
-import 'package:fd_app/values/app_colors.dart';
+import 'package:FoodDeli/pages/splashscreen_page.dart';
+import 'package:FoodDeli/values/app_colors.dart';
 import 'package:flutter/material.dart';
 
 void main() {

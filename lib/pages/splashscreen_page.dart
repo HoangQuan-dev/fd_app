@@ -1,7 +1,7 @@
-import 'package:fd_app/pages/login_page.dart';
-import 'package:fd_app/values/app_assets.dart';
-import 'package:fd_app/values/app_colors.dart';
-import 'package:fd_app/values/app_fonts.dart';
+import 'package:FoodDeli/pages/login_page.dart';
+import 'package:FoodDeli/values/app_assets.dart';
+import 'package:FoodDeli/values/app_colors.dart';
+import 'package:FoodDeli/values/app_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -36,6 +36,9 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Get screen width of the phone
+    double screenWidth = MediaQuery.of(context).size.width;
+
     // Ẩn thanh ngày giờ của hệ thống
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: [SystemUiOverlay.bottom]);
@@ -52,7 +55,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 "FOOD",
                 style: TextStyle(
                   fontFamily: AppFonts.bmdaniel,
-                  fontSize: 85,
+                  fontSize: 80,
                   color: Colors.white,
                   height: 0.8,
                 ),
@@ -61,7 +64,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 "IMMEDELI",
                 style: TextStyle(
                   fontFamily: AppFonts.bmdaniel,
-                  fontSize: 85,
+                  fontSize: 80,
                   color: Colors.white,
                 ),
               ),
@@ -82,11 +85,10 @@ class _SplashScreenState extends State<SplashScreen> {
             ],
           ),
           Container(
-            margin: const EdgeInsets.only(
-                top: 90), // Thay đổi giá trị này để điều chỉnh khoảng cách
+            margin: const EdgeInsets.only(top: 90),
             child: Image.asset(
               AppAssets.appLogo,
-              width: 400,
+              width: 300,
             ),
           ),
         ],

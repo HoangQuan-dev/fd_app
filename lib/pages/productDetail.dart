@@ -31,14 +31,14 @@ class _ProductDetailState extends State<ProductDetail> {
                     padding: const EdgeInsets.all(8.0),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10.0),
-                      child: Image.asset(product.imagePath, fit: BoxFit.cover),
+                      child: Image.asset(product.image!, fit: BoxFit.cover),
                     ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 9.0, bottom: 2.0),
                   child: Text(
-                    product.name,
+                    product.name!,
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),

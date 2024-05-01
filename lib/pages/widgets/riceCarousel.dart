@@ -25,14 +25,14 @@ Widget riceCarousel() {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(15.0),
                       child: Image.asset(
-                        prod.imagePath,
+                        prod.image!,
                         fit: BoxFit.cover,
                       ),
                     ),
                   ),
                 ),
                 Text(
-                  prod.name,
+                  prod.name!,
                   style: const TextStyle(
                       fontWeight: FontWeight.bold, fontSize: 14.0),
                 ),

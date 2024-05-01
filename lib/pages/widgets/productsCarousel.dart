@@ -2,7 +2,15 @@ import 'package:FoodDeli/values/app_assets.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
+import '../../data/api.dart';
+import '../../data/model/product.model.dart';
+
 Widget productsCarousel() {
+  List<Product> products = Product.productEmpty();
+  getProduct() async {
+    products = (await APIRepository().getProduct());
+  }
+
   return CarouselSlider(
     options: CarouselOptions(
       height: 180.0,
@@ -10,7 +18,7 @@ Widget productsCarousel() {
       enableInfiniteScroll: true,
       viewportFraction: 0.4,
     ),
-    items: AppAssets.products.map((prod) {
+    items: products.map((prod) {
       return Builder(
         builder: (BuildContext context) {
           return Container(
@@ -24,15 +32,15 @@ Widget productsCarousel() {
                     aspectRatio: 1 / 1,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(15.0),
-                      child: Image.asset(
-                        prod.imagePath,
+                      child: Image.network(
+                        prod.image!,
                         fit: BoxFit.cover,
                       ),
                     ),
                   ),
                 ),
                 Text(
-                  prod.name,
+                  prod.name!,
                   style: const TextStyle(
                       fontWeight: FontWeight.bold, fontSize: 14.0),
                 ),

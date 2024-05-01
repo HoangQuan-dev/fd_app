@@ -14,9 +14,9 @@ Widget bannerCarousel() {
         borderRadius: const BorderRadius.all(Radius.circular(5.0)),
         child: Stack(
           children: <Widget>[
-            Image.asset(
-              '${AppAssets.banners}/banner1.jpg',
-              fit: BoxFit.fitHeight,
+            Image.network(
+              'https://res.cloudinary.com/dzgdczkjk/image/upload/v1698200601/Spicy_Fried_Chicken_xgveuu.png',
+              fit: BoxFit.cover,
             ),
           ],
         ),
@@ -25,9 +25,9 @@ Widget bannerCarousel() {
         borderRadius: const BorderRadius.all(Radius.circular(5.0)),
         child: Stack(
           children: <Widget>[
-            Image.asset(
-              '${AppAssets.banners}/banner2.jpg',
-              fit: BoxFit.fitHeight,
+            Image.network(
+              'https://res.cloudinary.com/dzgdczkjk/image/upload/v1698200601/Potato_Sandwich_pnfa5y.png',
+              fit: BoxFit.cover,
             ),
           ],
         ),
@@ -36,9 +36,9 @@ Widget bannerCarousel() {
         borderRadius: const BorderRadius.all(Radius.circular(5.0)),
         child: Stack(
           children: <Widget>[
-            Image.asset(
-              '${AppAssets.banners}/banner3.jpg',
-              fit: BoxFit.fitHeight,
+            Image.network(
+              'https://res.cloudinary.com/dzgdczkjk/image/upload/v1698200595/Grilled_Beef_Burger_Whopper_Jr_mocdid.png',
+              fit: BoxFit.cover,
             ),
           ],
         ),

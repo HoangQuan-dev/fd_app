@@ -1,7 +1,10 @@
+import 'package:FoodDeli/pages/forgotPassword.dart';
 import 'package:FoodDeli/pages/home_page.dart';
+import 'package:FoodDeli/pages/mainPage.dart';
 import 'package:FoodDeli/values/app_assets.dart';
-import 'package:FoodDeli/values/app_colors.dart';
+import 'package:FoodDeli/values/app_config.dart';
 import 'package:FoodDeli/values/app_fonts.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Login extends StatefulWidget {
@@ -12,198 +15,189 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  bool _isPasswordVisible = false;
-  bool _rememberMe = false;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Material(
-        color: AppColors.primaryColor,
-        child: Center(
-          child: Container(
-            padding: const EdgeInsets.all(32.0),
-            constraints: const BoxConstraints(maxWidth: 350),
-            child: SingleChildScrollView(
+      body: Container(
+        padding: const EdgeInsets.only(left: 20, right: 20, top: 35, bottom: 30),
+        width: double.infinity,
+        height: double.infinity,
+        color: Colors.white70,
+        child: Column(
+          children: <Widget>[
+            Flexible(
+              flex: 5,
               child: Column(
-                mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    AppAssets.loginCircle,
-                    width: 300,
+                children: <Widget>[
+                  Container(
+                    width: 230,
+                    height: 230,
+                    alignment: Alignment.center,
+                    child: Image.asset(AppAssets.loginCircle),
                   ),
                   _gap(),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Text(
-                      "IMMEDELI CHÀO BẠN",
-                      style: TextStyle(
-                        fontFamily: AppFonts.bmdaniel,
-                        fontSize: 25,
-                        color: AppColors.whiteColor,
-                      ),
-                    ),
-                  ),
-                  // Padding(
-                  //   padding: const EdgeInsets.only(top: 8.0),
-                  //   child: Text(
-                  //     'Enter your email and password to continue.',
-                  //     style: Theme.of(context).textTheme.bodySmall,
-                  //     textAlign: TextAlign.center,
-                  //   ),
-                  // ),
-                  _gap(),
-                  TextFormField(
-                    cursorColor: AppColors.whiteColor,
-                    style: const TextStyle(color: AppColors.whiteColor),
-                    validator: (value) {
-                      // add email validation
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-
-                      bool emailValid = RegExp(
-                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                          .hasMatch(value);
-
-                      if (!emailValid) {
-                        return 'Please enter a valid email';
-                      }
-                      return null;
-                    },
-                    decoration: const InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white, width: 2.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white, width: 2.0),
-                      ),
-                      labelText: 'Email',
-                      labelStyle: TextStyle(color: AppColors.whiteColor),
-                      hintText: 'Enter your email',
-                      hintStyle: TextStyle(color: AppColors.whiteColor),
-                      prefixIcon: Icon(Icons.email_outlined),
-                      prefixStyle: TextStyle(
-                        color: AppColors.whiteColor,
-                      ),
-                      prefixIconColor: AppColors.whiteColor,
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.white,
-                        ), // Set outline color to white
-                      ),
-                    ),
-                  ),
-                  _gap(),
-                  TextFormField(
-                    cursorColor: AppColors.whiteColor,
-                    style: const TextStyle(
-                        color: AppColors.whiteColor,
-                        decorationColor: AppColors.whiteColor),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-
-                      if (value.length < 6) {
-                        return 'Password must be at least 6 characters';
-                      }
-                      return null;
-                    },
-                    obscureText: !_isPasswordVisible,
+                  TextField(
+                    showCursor: true,
                     decoration: InputDecoration(
-                      enabledBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white, width: 2.0),
-                      ),
-                      focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white, width: 2.0),
-                      ),
-                      labelText: 'Password',
-                      labelStyle: const TextStyle(color: AppColors.whiteColor),
-                      hintText: 'Enter your password',
-                      hintStyle: const TextStyle(color: AppColors.whiteColor),
-                      prefixIcon: const Icon(Icons.lock_outline_rounded),
-                      prefixIconColor: AppColors.whiteColor,
                       border: const OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white, width: 2.0),
-                      ),
-                      suffixIcon: IconButton(
-                        icon: Icon(_isPasswordVisible
-                            ? Icons.visibility_off
-                            : Icons.visibility),
-                        color: Colors.white,
-                        onPressed: () {
-                          setState(() {
-                            _isPasswordVisible = !_isPasswordVisible;
-                          });
-                        },
-                      ),
-                      suffixIconColor: AppColors.whiteColor,
-                      suffixStyle: const TextStyle(color: AppColors.whiteColor),
-                    ),
-                  ),
-                  _gap(),
-                  CheckboxListTile(
-                    value: _rememberMe,
-                    side: MaterialStateBorderSide.resolveWith(
-                      (states) => const BorderSide(
-                        width: 2.0,
-                        color: AppColors.whiteColor,
-                      ),
-                    ),
-                    selectedTileColor: AppColors.whiteColor,
-                    onChanged: (value) {
-                      if (value == null) return;
-                      setState(() {
-                        _rememberMe = value;
-                      });
-                    },
-                    title: const Text(
-                      'Remember me',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: AppColors.whiteColor,
-                      ),
-                    ),
-                    controlAffinity: ListTileControlAffinity.leading,
-                    dense: true,
-                    contentPadding: const EdgeInsets.all(0),
-                  ),
-                  _gap(),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(4)),
-                        backgroundColor: AppColors.secondaryColor,
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.all(10.0),
-                        child: Text(
-                          'Đăng nhập',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.whiteColor,
-                          ),
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        borderSide: BorderSide(
+                          width: 0,
+                          style: BorderStyle.none,
                         ),
+                      ),
+                      filled: true,
+                      prefixIcon: Icon(
+                        Icons.person,
+                        color:  const Color(0xFF666666),
+                        size: AppConfig.defaultIconSize,
+                      ),
+                      fillColor: const Color(0xFFF2F3F5),
+                      hintStyle: TextStyle(
+                          color: const Color(0xFF666666),
+                          fontFamily: AppFonts.interRegular,
+                          fontSize: AppConfig.defaultFontSize),
+                      hintText: "Email/Số điện thoại",
+                    ),
+                  ),
+                  _gap(),
+                  TextField(
+                    showCursor: true,
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        borderSide: BorderSide(
+                          width: 0,
+                          style: BorderStyle.none,
+                        ),
+                      ),
+                      filled: true,
+                      prefixIcon: Icon(
+                        Icons.lock_outline,
+                        color: Color(0xFF666666),
+                        size: AppConfig.defaultIconSize,
+                      ),
+                      suffixIcon: Icon(
+                        Icons.remove_red_eye,
+                        color: const Color(0xFF666666),
+                        size: AppConfig.defaultIconSize,
+                      ),
+                      fillColor: const Color(0xFFF2F3F5),
+                      hintStyle: TextStyle(
+                        color: const Color(0xFF666666),
+                        fontFamily: AppFonts.interRegular,
+                        fontSize: AppConfig.defaultFontSize,
+                      ),
+                      hintText: "Mật khẩu",
+                    ),
+                  ),
+                  _gap(),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const ForgotPassword()),
+                        );
+                      },
+                      style: TextButton.styleFrom(
+                        alignment: Alignment.centerRight,
+                      ),
+                      child: Text(
+                        "Quên mật khẩu",
+                        style: TextStyle(
+                          color: const Color(0xFF666666),
+                          fontFamily: AppFonts.interRegular,
+                          fontSize: AppConfig.defaultFontSize,
+                          fontStyle: FontStyle.normal,
+                        ),
+                      ),
+                    ),
+                  ),
+                  _gap(),
+                  Container(
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Color(0xFFF2F3F7)
+                    ),
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        padding: MaterialStateProperty.all(const EdgeInsets.all(17.0)),
+                        backgroundColor: MaterialStateProperty.all(const Color(0xFFEB8E0E)),
+                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                            side: const BorderSide(color: Color(0xFFEB8E0E))
+                        )),
                       ),
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => const HomePage(),
-                          ),
+                          MaterialPageRoute(builder: (context) => const MainPage()),
                         );
                       },
+                      child: const Text(
+                        "Đăng nhập",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontFamily: AppFonts.interRegular,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ),
+                  const SizedBox(height: 10),
                 ],
               ),
             ),
-          ),
+            Flexible(
+              flex: 1,
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      child: Text(
+                        "Bạn chưa có tài khoản? ",
+                        style: TextStyle(
+                          color: const Color(0xFF666666),
+                          fontFamily: AppFonts.interRegular,
+                          fontSize: AppConfig.defaultFontSize,
+                          fontStyle: FontStyle.normal,
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () => {
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(builder: (context) => AppSingUp()),
+                        // )
+                      },
+                      child: Container(
+                        child: Text(
+                          "Đăng ký",
+                          style: TextStyle(
+                            color: const Color(0xFFEB8E0E),
+                            fontFamily: AppFonts.interRegular,
+                            fontSize: AppConfig.defaultFontSize,
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ],
         ),
       ),
     );

@@ -1,15 +1,15 @@
+import 'package:FoodDeli/data/api.dart';
 import 'package:FoodDeli/data/model/category.model.dart';
-import 'package:FoodDeli/pages/favorite.dart';
-import 'package:FoodDeli/pages/order.dart';
+import 'package:FoodDeli/data/model/product.model.dart';
+import 'package:FoodDeli/pages/cartProvider.dart';
 import 'package:FoodDeli/pages/productDetail.dart';
-import 'package:FoodDeli/pages/profile.dart';
 import 'package:FoodDeli/pages/widgets/bannerCarousel.dart';
-import 'package:FoodDeli/pages/widgets/productsCarousel.dart';
 import 'package:FoodDeli/pages/widgets/riceCarousel.dart';
 import 'package:FoodDeli/values/app_assets.dart';
 import 'package:FoodDeli/values/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,43 +19,30 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
+  List<Category> categories = Category.categoryEmpty();
+  List<Product> products = Product.productEmpty();
+  bool isLoading = true;
+  bool isLoadingProd = true;
 
-  void _onItemTapped(int index) {
+  getCategory() async {
+    categories = (await APIRepository().getCategory());
     setState(() {
-      _selectedIndex = index;
+      isLoading = false;
     });
+  }
 
-    switch (index) {
-      case 0:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const HomePage()),
-        );
-      case 1:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const Order()),
-        );
-        break;
-      case 2:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const Favorite()),
-        );
-      case 3:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const Profile()),
-        );
-        break;
-      default:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const HomePage()),
-        );
-        break;
-    }
+  getProduct() async {
+    products = (await APIRepository().getProduct());
+    setState(() {
+      isLoadingProd = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getCategory();
+    getProduct();
   }
 
   @override
@@ -87,7 +74,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             bannerCarousel(),
-            // const SizedBox(height: 14.0),
+            const SizedBox(height: 14.0),
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.0),
@@ -100,13 +87,14 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
-              child: GridView.count(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                crossAxisCount: 4,
-                children:
-                    AppAssets.categories.map(_buildFoodCategoryItem).toList(),
-              ),
+              child: isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : GridView.count(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      crossAxisCount: 4,
+                      children: categories.map(_buildFoodCategoryItem).toList(),
+                    ),
             ),
             const SizedBox(height: 14.0),
             Container(
@@ -138,7 +126,86 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   const SizedBox(height: 8.0),
-                  productsCarousel(),
+                  Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: isLoadingProd
+                        ? const CircularProgressIndicator()
+                        : SizedBox(
+                            height: 260,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: products.length,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0),
+                                  child: SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width / 3,
+                                    child: Column(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(5.0)),
+                                          child: Stack(
+                                            children: <Widget>[
+                                              SizedBox(
+                                                height: 150,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    3,
+                                                child: Image.network(
+                                                  products[index].image!,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            products[index].name!,
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              NumberFormat('#,##0đ').format(
+                                                  products[index]
+                                                      .price!
+                                                      .toInt()),
+                                              style: const TextStyle(
+                                                  color: Colors.red),
+                                            ),
+                                            IconButton(
+                                              icon: const Icon(
+                                                  Icons.add_shopping_cart),
+                                              onPressed: () {
+                                                Provider.of<CartProvider>(
+                                                  context,
+                                                  listen: false,
+                                                ).add(
+                                                  products[index],
+                                                );
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                  ),
                 ],
               ),
             ),
@@ -202,30 +269,6 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Trang chủ',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.receipt),
-            label: 'Đơn hàng',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: 'Yêu thích',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: 'Tôi',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: AppColors.primaryColor,
-        unselectedItemColor: Colors.grey,
-        onTap: _onItemTapped,
-      ),
     );
   }
 
@@ -246,13 +289,13 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 10.0),
               Flexible(
                 flex: 2,
-                child: Image.asset(category.imagePath, height: 60.0),
+                child: Image.network(category.image!, height: 60.0),
               ),
               const SizedBox(height: 4.0),
               Flexible(
                 flex: 1,
-                child:
-                    Text(category.name, style: const TextStyle(fontSize: 12.0)),
+                child: Text(category.name!,
+                    style: const TextStyle(fontSize: 12.0)),
               ),
             ],
           ),

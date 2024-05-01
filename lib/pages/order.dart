@@ -167,7 +167,7 @@ class _OrderState extends State<Order> {
                                   bottomLeft: Radius.circular(10.0),
                                 ),
                                 child: Image.asset(
-                                  product.imagePath,
+                                  product.image!,
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -180,7 +180,7 @@ class _OrderState extends State<Order> {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Text(
-                                      product.name,
+                                      product.name!,
                                       style: const TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold),

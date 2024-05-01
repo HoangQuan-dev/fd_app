@@ -55,7 +55,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 "FOOD",
                 style: TextStyle(
                   fontFamily: AppFonts.bmdaniel,
-                  fontSize: 80,
+                  fontSize: 70,
                   color: Colors.white,
                   height: 0.8,
                 ),
@@ -64,7 +64,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 "IMMEDELI",
                 style: TextStyle(
                   fontFamily: AppFonts.bmdaniel,
-                  fontSize: 80,
+                  fontSize: 70,
                   color: Colors.white,
                 ),
               ),

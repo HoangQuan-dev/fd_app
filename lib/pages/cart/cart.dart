@@ -1,6 +1,6 @@
 import 'package:FoodDeli/data/model/product.model.dart';
-import 'package:FoodDeli/pages/cartProvider.dart';
-import 'package:FoodDeli/pages/order.dart';
+import 'package:FoodDeli/data/provider/cartProvider.dart';
+import 'package:FoodDeli/pages/order/order.dart';
 import 'package:FoodDeli/pages/widgets/customAppBarNoCart.dart';
 import 'package:FoodDeli/values/app_assets.dart';
 import 'package:FoodDeli/values/app_colors.dart';
@@ -142,12 +142,18 @@ class _CartState extends State<Cart> {
                     ),
                     padding: EdgeInsets.all(1),
                   ),
-                  const Text(
-                    '1', // số lượng của item product
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                  Text(
+                    prod.quantity.toString(),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (prod.quantity != 0 && prod.quantity! > 0) {
+                        prod.quantity += 1;
+                        Provider.of<CartProvider>(context, listen: false)
+                            .notifyListeners();
+                      }
+                    },
                     icon: const Icon(Icons.add_circle),
                     color: AppColors.primaryColor,
                   ),

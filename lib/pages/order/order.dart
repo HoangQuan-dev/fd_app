@@ -1,4 +1,4 @@
-import 'package:FoodDeli/pages/cart.dart';
+import 'package:FoodDeli/pages/cart/cart.dart';
 import 'package:FoodDeli/values/app_assets.dart';
 import 'package:FoodDeli/values/app_colors.dart';
 import 'package:flutter/material.dart';

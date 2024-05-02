@@ -1,8 +1,8 @@
 import 'package:FoodDeli/data/api.dart';
 import 'package:FoodDeli/data/model/category.model.dart';
 import 'package:FoodDeli/data/model/product.model.dart';
-import 'package:FoodDeli/pages/cartProvider.dart';
-import 'package:FoodDeli/pages/productDetail.dart';
+import 'package:FoodDeli/data/provider/cartProvider.dart';
+import 'package:FoodDeli/pages/product/productDetail.dart';
 import 'package:FoodDeli/pages/widgets/bannerCarousel.dart';
 import 'package:FoodDeli/pages/widgets/riceCarousel.dart';
 import 'package:FoodDeli/values/app_assets.dart';
@@ -193,6 +193,27 @@ class _HomePageState extends State<HomePage> {
                                                   listen: false,
                                                 ).add(
                                                   products[index],
+                                                );
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    backgroundColor:
+                                                        Color.fromARGB(
+                                                            251, 235, 143, 14),
+                                                    behavior: SnackBarBehavior
+                                                        .floating,
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8.0),
+                                                    ),
+                                                    content: const Text(
+                                                      'Đã thêm vào giỏ hàng',
+                                                    ),
+                                                    duration: const Duration(
+                                                        seconds: 2),
+                                                  ),
                                                 );
                                               },
                                             ),

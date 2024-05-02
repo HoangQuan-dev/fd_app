@@ -1,9 +1,9 @@
-import 'package:FoodDeli/pages/cart.dart';
-import 'package:FoodDeli/pages/cartProvider.dart';
-import 'package:FoodDeli/pages/favorite.dart';
-import 'package:FoodDeli/pages/home_page.dart';
-import 'package:FoodDeli/pages/orderHistory.dart';
-import 'package:FoodDeli/pages/profile.dart';
+import 'package:FoodDeli/pages/cart/cart.dart';
+import 'package:FoodDeli/data/provider/cartProvider.dart';
+import 'package:FoodDeli/pages/favorite/favorite.dart';
+import 'package:FoodDeli/pages/homePage.dart';
+import 'package:FoodDeli/pages/order/orderHistory.dart';
+import 'package:FoodDeli/pages/user/profile.dart';
 import 'package:FoodDeli/values/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

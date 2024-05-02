@@ -1,7 +1,7 @@
-import 'package:FoodDeli/pages/favorite.dart';
-import 'package:FoodDeli/pages/home_page.dart';
-import 'package:FoodDeli/pages/login_page.dart';
-import 'package:FoodDeli/pages/order.dart';
+import 'package:FoodDeli/pages/favorite/favorite.dart';
+import 'package:FoodDeli/pages/homePage.dart';
+import 'package:FoodDeli/pages/account/login.dart';
+import 'package:FoodDeli/pages/order/order.dart';
 import 'package:FoodDeli/values/app_assets.dart';
 import 'package:FoodDeli/values/app_colors.dart';
 import 'package:flutter/material.dart';

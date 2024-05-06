@@ -8,8 +8,7 @@ class CartProvider extends ChangeNotifier {
   List<Product> get items => _items;
 
   Future<void> add(Product item) async {
-    var prodItem = _items.firstWhere((prod) => prod.id == item.id,
-        orElse: () => Product.productEmpty()[0]);
+    var prodItem = _items.firstWhere((prod) => prod.id == item.id);
 
     if (prodItem.id != '') {
       prodItem.quantity += 1;
@@ -28,6 +27,14 @@ class CartProvider extends ChangeNotifier {
   void clear() {
     _items.clear();
     notifyListeners();
+  }
+
+  double get totalAmount {
+    var total = 0.0;
+    for (var item in _items) {
+      total += item.price! * item.quantity;
+    }
+    return total;
   }
 
   int get itemCount => _items.length;

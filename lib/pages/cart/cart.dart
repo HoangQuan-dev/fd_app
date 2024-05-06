@@ -5,6 +5,7 @@ import 'package:FoodDeli/pages/widgets/customAppBarNoCart.dart';
 import 'package:FoodDeli/values/app_assets.dart';
 import 'package:FoodDeli/values/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -34,54 +35,59 @@ class _CartState extends State<Cart> {
                   return itemListView(cart.items[index]);
                 },
               ),
-              const SizedBox(height: 250),
-              // Container(
-              //   color: const Color(0xFFF5F3F3),
-              //   padding: const EdgeInsets.all(8),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //     children: [
-              //       const Text('TỔNG TIỀN : 132.000đ',
-              //           style: TextStyle(
-              //             fontSize: 18,
-              //             fontWeight: FontWeight.bold,
-              //           )),
-              //       Row(
-              //         children: [
-              //           SizedBox(
-              //             width: 130,
-              //             child: ElevatedButton(
-              //               style: ElevatedButton.styleFrom(
-              //                 shape: RoundedRectangleBorder(
-              //                     borderRadius: BorderRadius.circular(4)),
-              //                 backgroundColor: const Color(0xFFFC6B15),
-              //               ),
-              //               child: const Padding(
-              //                 padding: EdgeInsets.all(2),
-              //                 child: Text(
-              //                   'XÁC NHẬN',
-              //                   style: TextStyle(
-              //                     fontSize: 14,
-              //                     fontWeight: FontWeight.bold,
-              //                     color: AppColors.whiteColor,
-              //                   ),
-              //                 ),
-              //               ),
-              //               onPressed: () {
-              //                 Navigator.push(
-              //                   context,
-              //                   MaterialPageRoute(
-              //                     builder: (context) => const Order(),
-              //                   ),
-              //                 );
-              //               },
-              //             ),
-              //           ),
-              //         ],
-              //       ),
-              //     ],
-              //   ),
-              // )
+              const SizedBox(height: 500),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  color: const Color(0xFFF5F3F3),
+                  padding: const EdgeInsets.all(8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                          'TỔNG TIỀN : ${NumberFormat('###,###.###đ').format(cart.totalAmount)}',
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          )),
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 100,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(4)),
+                                backgroundColor: const Color(0xFFFC6B15),
+                              ),
+                              child: const Padding(
+                                padding: EdgeInsets.all(2),
+                                child: Text(
+                                  'XÁC NHẬN',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.whiteColor,
+                                  ),
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        Order(cartItems: cart.items),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              )
             ],
           ),
         ),
@@ -122,8 +128,7 @@ class _CartState extends State<Cart> {
               Padding(
                 padding: const EdgeInsets.only(left: 8.0),
                 child: Text(
-                  // 'Price: ${NumberFormat('###,###.###').format(prod.price)}',
-                  '${prod.price}đ',
+                  NumberFormat('###,###.###đ').format(prod.price),
                 ),
               ),
               Row(

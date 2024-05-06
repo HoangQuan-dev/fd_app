@@ -3,9 +3,15 @@ import 'package:FoodDeli/values/app_assets.dart';
 import 'package:FoodDeli/values/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:provider/provider.dart';
+
+import '../../data/model/product.model.dart';
+import '../../data/provider/cartProvider.dart';
 
 class Order extends StatefulWidget {
-  const Order({super.key});
+  final List<Product> cartItems;
+
+  const Order({Key? key, required this.cartItems}) : super(key: key);
 
   @override
   State<Order> createState() => _OrderState();
@@ -14,6 +20,8 @@ class Order extends StatefulWidget {
 class _OrderState extends State<Order> {
   @override
   Widget build(BuildContext context) {
+    var cart = Provider.of<CartProvider>(context);
+    var cartItems = cart.items;
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -143,63 +151,56 @@ class _OrderState extends State<Order> {
             const SizedBox(height: 8),
             Padding(
               padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-              child: CarouselSlider(
-                options: CarouselOptions(
-                  aspectRatio: 1,
-                  height: 100,
-                  enableInfiniteScroll: false,
-                ),
-                items: AppAssets.hamburgers.map((product) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return Card(
-                        elevation: 4,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
-                        color: Colors.white,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: ClipRRect(
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(10.0),
-                                  bottomLeft: Radius.circular(10.0),
-                                ),
-                                child: Image.asset(
-                                  product.image!,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
+              child: ListView.builder(
+                itemCount: cartItems.length,
+                itemBuilder: (context, index) {
+                  var product = cartItems[index];
+                  return Card(
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                    color: Colors.white,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(10.0),
+                              bottomLeft: Radius.circular(10.0),
                             ),
-                            Expanded(
-                              flex: 3,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      product.name!,
-                                      style: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    const Text(
-                                      '47.000đ',
-                                      style: TextStyle(fontSize: 14),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                            child: Image.asset(
+                              product.image!,
+                              fit: BoxFit.cover,
                             ),
-                          ],
+                          ),
                         ),
-                      );
-                    },
+                        Expanded(
+                          flex: 3,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  product.name!,
+                                  style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  '${product.price}đ',
+                                  style: TextStyle(fontSize: 14),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   );
-                }).toList(),
+                },
               ),
             ),
             const SizedBox(height: 20),

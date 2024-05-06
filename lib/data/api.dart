@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:FoodDeli/data/model/product.model.dart';
+import 'package:FoodDeli/data/model/user.model.dart';
 import 'package:dio/dio.dart';
 
 import 'model/category.model.dart';
@@ -27,7 +28,7 @@ class APIRepository {
     };
   }
 
-  Future<String> login(String emailOrPhone, String password) async {
+  Future<User> login(String emailOrPhone, String password) async {
     try {
       Response res = await api.sendRequest.post('/login',
           data: jsonEncode(<String, String>{
@@ -36,9 +37,32 @@ class APIRepository {
           }),
           options: Options(headers: header()));
       if (res.statusCode == 200) {
-        return res.data;
+        return User.fromJson(res.data);
       } else {
         throw Exception('Failed to login');
+      }
+    } catch (ex) {
+      print(ex);
+      rethrow;
+    }
+  }
+
+  Future<User> signUp(String name, String gender, String email, String phone,
+      String password) async {
+    try {
+      Response res = await api.sendRequest.post('/add',
+          data: jsonEncode(<String, String>{
+            'name': name,
+            'gender': gender,
+            'email': email,
+            'phone': phone,
+            'password': password,
+          }),
+          options: Options(headers: header()));
+      if (res.statusCode == 200) {
+        return User.fromJson(res.data);
+      } else {
+        throw Exception('Failed to sign up');
       }
     } catch (ex) {
       print(ex);
@@ -74,6 +98,33 @@ class APIRepository {
             .toList();
       } else {
         throw Exception('Data is not a list');
+      }
+    } catch (ex) {
+      print(ex);
+      rethrow;
+    }
+  }
+
+  Future<String> createPaymentUrl({
+    required double amount,
+  }) async {
+    try {
+      Response res = await api.sendRequest.post(
+        '/payment/create_payment_url',
+        data: jsonEncode(<String, String>{
+          'amount': amount.toString(),
+          'bankCode': 'ncb',
+          'orderDescription': 'Thanh toán đơn hàng ngày: ${DateTime.now()}',
+          'orderType': 'other',
+          'language': 'vn',
+        }),
+        options: Options(headers: header()),
+      );
+
+      if (res.statusCode == 200) {
+        return res.data;
+      } else {
+        throw Exception('Failed to create payment URL');
       }
     } catch (ex) {
       print(ex);

@@ -1,4 +1,3 @@
-import 'package:FoodDeli/data/model/category.model.dart';
 import 'package:FoodDeli/data/model/product.model.dart';
 
 class AppAssets {

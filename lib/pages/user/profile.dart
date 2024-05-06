@@ -1,10 +1,18 @@
-import 'package:FoodDeli/pages/favorite/favorite.dart';
-import 'package:FoodDeli/pages/homePage.dart';
+import 'dart:convert';
+
+import 'package:FoodDeli/data/api.dart';
+import 'package:FoodDeli/data/model/user.model.dart';
+import 'package:FoodDeli/data/sharePreferences.dart';
 import 'package:FoodDeli/pages/account/login.dart';
-import 'package:FoodDeli/pages/order/order.dart';
+import 'package:FoodDeli/pages/payment/success.dart';
+import 'package:FoodDeli/pages/user/editProfile.dart';
+import 'package:FoodDeli/pages/user/profileWidget.dart';
 import 'package:FoodDeli/values/app_assets.dart';
 import 'package:FoodDeli/values/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -14,149 +22,173 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  User user = User.userEmpty();
+  bool isAvatarLoading = true;
+  getDataUser() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    String strUser = pref.getString('user')!;
+    user = User.fromJson(jsonDecode(strUser));
+    setState(() {
+      isAvatarLoading = false;
+    });
+  }
+
+  void payByVnpay() async {
+    try {
+      String paymentUrl = await APIRepository().createPaymentUrl(
+        amount: 25000,
+      );
+      if (await canLaunch(paymentUrl)) {
+        await launch(paymentUrl);
+        await Future.delayed(const Duration(seconds: 3));
+        await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const PaymentSuccess(),
+          ),
+        );
+      } else {
+        throw 'Could not launch $paymentUrl';
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getDataUser();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
+        child: Container(
+          padding: const EdgeInsets.all(8.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
+              Stack(
                 children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 10, right: 50, top: 20, bottom: 30),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(100),
-                        child: Image.asset(AppAssets.avatar),
-                      ),
+                  SizedBox(
+                    width: 120,
+                    height: 120,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: isAvatarLoading
+                          ? const CircularProgressIndicator()
+                          : Image.network(user.avatar!),
                     ),
                   ),
-                  const Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(right: 10.0),
-                          child: Row(
-                            children: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Phạm Hoàng Quân',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: AppColors.primaryColor,
-                                    ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.shield_rounded,
-                                        color: Color(0xFFBCBCBC),
-                                      ),
-                                      Text(
-                                        ' Silver Member',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.normal,
-                                          color: Color(0xFFBCBCBC),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: Container(
+                      width: 35,
+                      height: 35,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: AppColors.primaryColor),
+                      child: const Icon(
+                        Icons.edit,
+                        color: Colors.white,
+                        size: 20,
+                      ),
                     ),
                   ),
                 ],
               ),
-              const Padding(
-                padding: EdgeInsets.only(left: 10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Icon(Icons.phone),
-                    SizedBox(width: 5),
-                    Padding(
-                      padding: EdgeInsets.only(left: 16.0),
-                      child: Text('0387281902'),
-                    ),
-                  ],
-                ),
+              const SizedBox(height: 10),
+              Text(
+                user.name!,
+                style: Theme.of(context).textTheme.headlineMedium,
               ),
-              const SizedBox(height: 10.0),
-              const Padding(
-                padding: EdgeInsets.only(left: 10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Icon(Icons.email),
-                    SizedBox(width: 5),
-                    Padding(
-                      padding: EdgeInsets.only(left: 16.0),
-                      child: Text('quanhoang@gmail.com'),
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.shield_rounded,
+                    color: Colors.amber,
+                  ),
+                  Text(
+                    'Thành viên Vàng',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.amber,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 10.0),
-              const Padding(
-                padding: EdgeInsets.only(left: 10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Icon(Icons.home_filled),
-                    SizedBox(width: 5),
-                    Padding(
-                      padding: EdgeInsets.only(left: 16.0),
-                      child: Text('55/10/49 Thành Mỹ, quận Tân Bình, TP.HCM'),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 380.0),
-              Padding(
-                padding: const EdgeInsets.only(left: 10.0),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4)),
-                      backgroundColor: AppColors.primaryColor,
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Text(
-                        'Đăng xuất',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.whiteColor,
-                        ),
+              const SizedBox(height: 20),
+
+              /// -- BUTTON
+              SizedBox(
+                width: 200,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const EditProfile(),
                       ),
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const Login(),
-                          ));
-                    },
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primaryColor,
+                    side: BorderSide.none,
+                    shape: const StadiumBorder(),
+                  ),
+                  child: const Text(
+                    'Chỉnh sửa',
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
+              ),
+              const SizedBox(height: 30),
+              const Divider(),
+              const SizedBox(height: 10),
+
+              /// -- MENU
+              ProfileWidget(
+                title: "Cài đặt tài khoản",
+                icon: Icons.settings,
+                onPress: () {
+                  payByVnpay();
+                },
+              ),
+              ProfileWidget(
+                title: "Chi tiết hóa đơn",
+                icon: Icons.wallet,
+                onPress: () {},
+              ),
+              ProfileWidget(
+                title: "Quản lý cá nhân",
+                icon: Icons.person,
+                onPress: () {},
+              ),
+              const Divider(),
+              const SizedBox(height: 10),
+              ProfileWidget(
+                title: "Thông tin",
+                icon: Icons.info,
+                onPress: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const EditProfile(),
+                    ),
+                  );
+                },
+              ),
+              ProfileWidget(
+                title: 'Đăng xuất',
+                icon: Icons.logout,
+                textColor: Colors.red,
+                onPress: () {
+                  logOut(context);
+                },
               )
             ],
           ),

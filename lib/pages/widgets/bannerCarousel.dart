@@ -15,7 +15,7 @@ Widget bannerCarousel() {
         child: Stack(
           children: <Widget>[
             Image.network(
-              'https://res.cloudinary.com/dzgdczkjk/image/upload/v1698200601/Spicy_Fried_Chicken_xgveuu.png',
+              'https://res.cloudinary.com/dzgdczkjk/image/upload/v1714421380/banner2_f2mfqg.jpg',
               fit: BoxFit.cover,
             ),
           ],
@@ -26,7 +26,7 @@ Widget bannerCarousel() {
         child: Stack(
           children: <Widget>[
             Image.network(
-              'https://res.cloudinary.com/dzgdczkjk/image/upload/v1698200601/Potato_Sandwich_pnfa5y.png',
+              'https://res.cloudinary.com/dzgdczkjk/image/upload/v1714421349/banner1_rkzl8o.jpg',
               fit: BoxFit.cover,
             ),
           ],
@@ -37,7 +37,7 @@ Widget bannerCarousel() {
         child: Stack(
           children: <Widget>[
             Image.network(
-              'https://res.cloudinary.com/dzgdczkjk/image/upload/v1698200595/Grilled_Beef_Burger_Whopper_Jr_mocdid.png',
+              'https://res.cloudinary.com/dzgdczkjk/image/upload/v1714421381/banner3_wbal2v.jpg',
               fit: BoxFit.cover,
             ),
           ],

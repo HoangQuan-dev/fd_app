@@ -36,9 +36,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Get screen width of the phone
-    double screenWidth = MediaQuery.of(context).size.width;
-
     // Ẩn thanh ngày giờ của hệ thống
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: [SystemUiOverlay.bottom]);

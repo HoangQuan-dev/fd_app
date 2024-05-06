@@ -1,6 +1,7 @@
 import 'package:FoodDeli/data/api.dart';
 import 'package:FoodDeli/data/model/user.model.dart';
 import 'package:FoodDeli/pages/account/forgotPassword.dart';
+import 'package:FoodDeli/pages/account/signUp.dart';
 import 'package:FoodDeli/pages/homePage.dart';
 import 'package:FoodDeli/pages/mainPage.dart';
 import 'package:FoodDeli/values/app_assets.dart';
@@ -18,17 +19,23 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  bool isHidden = true;
   TextEditingController accountController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   login() async {
     User user = (await APIRepository()
-        .login(accountController.text, passwordController.text)) as User;
-
+        .login(accountController.text, passwordController.text));
     // save share
     saveUser(user);
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const HomePage()));
+        context, MaterialPageRoute(builder: (context) => const MainPage()));
     return true;
+  }
+
+  void _toggleVisibility() {
+    setState(() {
+      isHidden = !isHidden;
+    });
   }
 
   @override
@@ -80,6 +87,7 @@ class _LoginState extends State<Login> {
                 // password
                 TextField(
                   controller: passwordController,
+                  obscureText: isHidden ? true : false,
                   showCursor: true,
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(
@@ -95,10 +103,13 @@ class _LoginState extends State<Login> {
                       color: const Color(0xFF666666),
                       size: AppConfig.defaultIconSize,
                     ),
-                    suffixIcon: Icon(
-                      Icons.remove_red_eye,
-                      color: const Color(0xFF666666),
-                      size: AppConfig.defaultIconSize,
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        isHidden ? Icons.visibility_off : Icons.visibility,
+                        color: const Color(0xFF666666),
+                        size: AppConfig.defaultIconSize,
+                      ),
+                      onPressed: _toggleVisibility,
                     ),
                     fillColor: const Color(0xFFF2F3F5),
                     hintStyle: TextStyle(
@@ -150,11 +161,7 @@ class _LoginState extends State<Login> {
                           side: const BorderSide(color: Color(0xFFEB8E0E)))),
                     ),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const MainPage()),
-                      );
+                      login();
                     },
                     child: const Text(
                       "Đăng nhập",
@@ -186,10 +193,11 @@ class _LoginState extends State<Login> {
                       ),
                       InkWell(
                         onTap: () => {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(builder: (context) => AppSingUp()),
-                          // )
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SignUp()),
+                          )
                         },
                         child: Text(
                           "Đăng ký",

@@ -19,7 +19,7 @@ class _FavoriteState extends State<Favorite> {
         padding: const EdgeInsets.all(8.0),
         child: GridView.count(
           crossAxisCount: 2,
-          children: AppAssets.hamburgers.map((product) {
+          children: AppAssets.products.map((product) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[

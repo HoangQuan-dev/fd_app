@@ -1,27 +1,19 @@
-import 'package:FoodDeli/pages/account/confirmationCode.dart';
-import 'package:FoodDeli/values/app_assets.dart';
-import 'package:FoodDeli/values/app_config.dart';
+import 'package:FoodDeli/pages/account/resetPassword.dart';
 import 'package:flutter/material.dart';
 
+import '../../values/app_assets.dart';
 import '../../values/app_colors.dart';
 import '../../values/app_fonts.dart';
 
-class ForgotPassword extends StatefulWidget {
-  const ForgotPassword({super.key});
+class ConfirmationCode extends StatefulWidget {
+  const ConfirmationCode({super.key});
 
   @override
-  State<ForgotPassword> createState() => _ForgotPasswordState();
+  State<ConfirmationCode> createState() => _ConfirmationCodeState();
 }
 
-class _ForgotPasswordState extends State<ForgotPassword> {
-  bool isHidden = true;
-  TextEditingController accountController = TextEditingController();
-
-  TextEditingController nameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController genderController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+class _ConfirmationCodeState extends State<ConfirmationCode> {
+  final List<FocusNode> _focusNodes = List.generate(4, (index) => FocusNode());
 
   @override
   Widget build(BuildContext context) {
@@ -36,15 +28,15 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  width: 230,
-                  height: 230,
+                  width: 150,
+                  height: 150,
                   alignment: Alignment.center,
-                  child: Image.asset(AppAssets.loginCircle),
+                  child: Image.asset(AppAssets.lock),
                 ),
                 const Align(
                   alignment: Alignment.center,
                   child: Text(
-                    'Quên mật khẩu',
+                    'Mã xác nhận',
                     style: TextStyle(
                       color: AppColors.primaryColor,
                       fontSize: 26,
@@ -54,39 +46,19 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 ),
                 _gap(),
                 const Text(
-                  'Chúng tôi sẽ gửi mã xác thực đến email của bạn để đặt lại mật khẩu. Hãy nhập email liên kết với tài khoản của bạn bên dưới.',
+                  'Hãy nhập mã xác nhận chúng tôi đã gửi qua email của bạn vào bên dưới.',
                   textAlign: TextAlign.center,
                 ),
-                _gap(),
-                // email
-                TextField(
-                  controller: accountController,
-                  showCursor: true,
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                      borderSide: BorderSide(
-                        width: 0,
-                        style: BorderStyle.none,
-                      ),
-                    ),
-                    filled: true,
-                    prefixIcon: Icon(
-                      Icons.email_rounded,
-                      color: const Color(0xFF666666),
-                      size: AppConfig.defaultIconSize,
-                    ),
-                    fillColor: const Color(0xFFF2F3F5),
-                    hintStyle: TextStyle(
-                        color: const Color(0xFF666666),
-                        fontFamily: AppFonts.interRegular,
-                        fontSize: AppConfig.defaultFontSize),
-                    hintText: "Email",
-                  ),
+                const SizedBox(height: 25),
+                // code input
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children:
+                      List.generate(4, (index) => _buildSquareInput(index)),
                 ),
                 _gap(),
                 Container(
-                  width: double.infinity,
+                  width: 290,
                   decoration: const BoxDecoration(
                       shape: BoxShape.circle, color: Color(0xFFF2F3F7)),
                   child: ElevatedButton(
@@ -101,12 +73,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     ),
                     onPressed: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ConfirmationCode()));
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ResetPassword()),
+                      );
                     },
                     child: const Text(
-                      "Gửi",
+                      "Xác nhận",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -126,4 +99,31 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   }
 
   Widget _gap() => const SizedBox(height: 16);
+
+  Widget _buildSquareInput(int index) {
+    return SizedBox(
+      width: 60,
+      height: 90,
+      child: TextField(
+        focusNode: _focusNodes[index],
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5.0),
+          ),
+          counterText: '',
+        ),
+        keyboardType: TextInputType.number,
+        textAlign: TextAlign.center,
+        maxLength: 1,
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+        onChanged: (value) {
+          if (value.isNotEmpty && index < 3) {
+            FocusScope.of(context).requestFocus(_focusNodes[index + 1]);
+          }
+        },
+      ),
+    );
+  }
 }

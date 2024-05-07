@@ -95,44 +95,44 @@ class _SignUpState extends State<SignUp> {
                       ),
                     ),
                     const SizedBox(width: 10),
-                    Expanded(
-                      flex: 1,
-                      child: DropdownButtonFormField<String>(
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0)),
-                            borderSide: BorderSide(
-                              width: 0,
-                              style: BorderStyle.none,
-                            ),
+                   Expanded(
+                    flex: 1,
+                    child: DropdownButtonFormField<String>(
+                      isExpanded: true,
+                      iconSize: 20,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          borderSide: BorderSide(
+                            width: 0,
+                            style: BorderStyle.none,
                           ),
-                          filled: true,
-                          fillColor: Color(0xFFD3D3D3),
                         ),
-                        hint: const Text('Giới tính'),
-                        value: dropdownValue,
-                        icon: const Icon(Icons.arrow_downward),
-                        iconSize: 24,
-                        elevation: 16,
-                        style: TextStyle(
-                            color: const Color(0xFFF2F3F5),
-                            fontFamily: AppFonts.interRegular,
-                            fontSize: AppConfig.defaultFontSize),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            dropdownValue = newValue!;
-                          });
-                        },
-                        items: <String>['Nam', 'Nữ', 'Khác']
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
+                        filled: true,
+                        fillColor: Color(0xFFF2F3F5),
                       ),
+                      hint: const Text('Giới tính'),
+                      value: dropdownValue,
+                      icon: const Icon(Icons.arrow_drop_down),
+                      elevation: 16,
+                      style: TextStyle(
+                          color: const Color(0xFF666666),
+                          fontFamily: AppFonts.interRegular,
+                          fontSize: AppConfig.defaultFontSize),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          dropdownValue = newValue!;
+                        });
+                      },
+                      items: <String>['Nam', 'Nữ', 'Khác']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Center(child: Text(value)), // Căn giữa các giá trị
+                        );
+                      }).toList(),
                     ),
+                  ),
                   ],
                 ),
                 _gap(),

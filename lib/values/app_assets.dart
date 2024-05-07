@@ -5,6 +5,7 @@ class AppAssets {
   static const String catPath = 'assets/images/categories';
   static const String prodPath = 'assets/images/products';
   static const String iconPath = 'assets/icons';
+  static const String imgSystem = 'assets/images/system';
 
   static const String appLogo = '$imagePath/logo.jpg';
   static const String loginCircle = '$imagePath/login_circle.jpg';
@@ -15,6 +16,8 @@ class AppAssets {
   static const String flashsale = '$iconPath/flashsale.png';
 
   static const String banners = '$imagePath/banners';
+  static const String edit = '$imgSystem/edit.gif';
+  static const String lock = '$imgSystem/equity-security.gif';
 
   static final List<Product> products = [
     Product(
@@ -28,19 +31,28 @@ class AppAssets {
         cat_id: 'nosh'),
     Product(
         id: '',
-        name: 'Cơm gà Hải Nam',
+        name: 'Cơm chiên dương châu',
         description: '',
-        price: 47000,
-        image: '$prodPath/comga.jpg',
+        price: 35000,
+        image: '$prodPath/comchien.jpg',
         quantity: 0,
         size: [],
         cat_id: 'nosh'),
     Product(
         id: '',
-        name: 'Cơm gà Hải Nam',
+        name: 'Cơm gà chiên sốt tương',
         description: '',
-        price: 47000,
-        image: '$prodPath/comga.jpg',
+        price: 45000,
+        image: '$prodPath/comgaa.jpg',
+        quantity: 0,
+        size: [],
+        cat_id: 'nosh'),
+    Product(
+        id: '',
+        name: 'Cơm sườn nướng',
+        description: '',
+        price: 48000,
+        image: '$prodPath/comsuonnuong.jpg',
         quantity: 0,
         size: [],
         cat_id: 'nosh'),
@@ -72,28 +84,28 @@ class AppAssets {
         cat_id: 'nosh'),
     Product(
         id: '',
-        name: 'Cơm gà Hải Nam',
+        name: 'Cơm chiên dương châu',
         description: '',
-        price: 47000,
-        image: '$prodPath/comga.jpg',
+        price: 35000,
+        image: '$prodPath/comchien.jpg',
         quantity: 0,
         size: [],
         cat_id: 'nosh'),
     Product(
         id: '',
-        name: 'Cơm gà Hải Nam',
+        name: 'Cơm gà chiên sốt tương',
         description: '',
-        price: 47000,
-        image: '$prodPath/comga.jpg',
+        price: 45000,
+        image: '$prodPath/comgaa.jpg',
         quantity: 0,
         size: [],
         cat_id: 'nosh'),
     Product(
         id: '',
-        name: 'Cơm gà Hải Nam',
+        name: 'Cơm sườn nướng',
         description: '',
-        price: 47000,
-        image: '$prodPath/comga.jpg',
+        price: 48000,
+        image: '$prodPath/comsuonnuong.jpg',
         quantity: 0,
         size: [],
         cat_id: 'nosh'),

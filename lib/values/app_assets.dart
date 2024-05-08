@@ -18,6 +18,7 @@ class AppAssets {
   static const String banners = '$imagePath/banners';
   static const String edit = '$imgSystem/edit.gif';
   static const String lock = '$imgSystem/equity-security.gif';
+  static const String voucher = '$imgSystem/coupon.png';
 
   static final List<Product> products = [
     Product(

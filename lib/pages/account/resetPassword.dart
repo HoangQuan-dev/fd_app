@@ -1,3 +1,4 @@
+import 'package:FoodDeli/pages/account/login.dart';
 import 'package:flutter/material.dart';
 
 import '../../values/app_assets.dart';
@@ -105,8 +106,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => const ResetPassword()),
+                        MaterialPageRoute(builder: (context) => const Login()),
                       );
                     },
                     child: const Text(

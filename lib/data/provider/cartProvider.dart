@@ -2,18 +2,17 @@ import 'package:flutter/material.dart';
 
 import '../model/product.model.dart';
 
-class CartProvider extends ChangeNotifier {
+class CartProvider with ChangeNotifier {
   final List<Product> _items = [];
 
   List<Product> get items => _items;
 
   Future<void> add(Product item) async {
-    var prodItem = _items.firstWhere((prod) => prod.id == item.id);
-
-    if (prodItem.id != '') {
-      prodItem.quantity += 1;
+    var index = _items.indexWhere((product) => product.id == item.id);
+    print(index);
+    if (index != -1) {
+      _items[index].quantity += item.quantity;
     } else {
-      item.quantity = 1;
       _items.add(item);
     }
     notifyListeners();
